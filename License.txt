@@ -1,0 +1,29 @@
+Note:
+----------------------------
+
+The code in this Tutorial Framework is released under the WTFPL (see below).
+The images are _not_ by me and are _not_ included in this license, they are both distributed under Creative Commons licenses. See these Links for details:
+
+skeleton_3.png:
+http://opengameart.org/content/lpc-skeleton
+spear_walk_m.png:
+http://opengameart.org/content/spear-walk
+Thanks to the authors!
+
+
+License:
+----------------------------
+
+		DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+                    Version 2, December 2004 
+
+ Copyright (C) 2014 Micha Pfeiffer
+
+ Everyone is permitted to copy and distribute verbatim or modified 
+ copies of this license document, and changing it is allowed as long 
+ as the name is changed. 
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
