@@ -63,6 +63,7 @@ function love.draw()
 	chars[2]:draw()
 	love.graphics.setCanvas()
 
+	love.graphics.setColor(255,255,255,255)
 	if Shaders:isEnabled( "gaussian horizontal" ) and not Shaders:isEnabled( "gaussian vertical" ) then
 		love.graphics.setShader( gaussianH )
 		love.graphics.draw( fullScreenCanvas1 )
@@ -85,7 +86,6 @@ function love.draw()
 		love.graphics.draw( fullScreenCanvas1 )
 	end
 
-	love.graphics.setColor(255,255,255,255)
 	Shaders:draw()
 
 	love.graphics.print( love.timer.getFPS(), 10, love.graphics.getHeight() - 24 )
