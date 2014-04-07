@@ -1,8 +1,8 @@
 Note:
 ----------------------------
 
-The code in this Tutorial Framework is released under the WTFPL (see below).
-The images are _not_ by me and are _not_ included in this license, they are both distributed under Creative Commons licenses. See these Links for details:
+The code in this Tutorial Framework is released under the WTFPL (see below) - with one exception: If there is a License.txt in any of the Shaders/ subfolders, then that License applies for the contents of the subfolder.
+The images are _not_ by me and are _not_ included in this license, they are distributed under Creative Commons licenses. See these Links for details:
 
 skeleton_3.png:
 http://opengameart.org/content/lpc-skeleton

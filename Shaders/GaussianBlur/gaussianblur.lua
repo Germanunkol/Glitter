@@ -22,7 +22,7 @@ function gaussian.init()
 	gaussianV:send( "blurSize", 1/love.graphics.getHeight() )
 end
 
-function gaussian.draw( drawable, x, y )
+function gaussian.drawFunc( func )
 
 	-- Clear anything previously drawn to the canvas (Important!)
 	fullScreenCanvas:clear()
@@ -30,7 +30,7 @@ function gaussian.draw( drawable, x, y )
 	-- Blur the drawable horizontally, render to canvas:
 	love.graphics.setCanvas( fullScreenCanvas )
 	love.graphics.setShader( gaussianH )
-	love.graphics.draw( drawable, x, y )
+	func()
 	love.graphics.setCanvas()
 
 	-- Now render the Canvas to the screen, using the vertical

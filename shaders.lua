@@ -88,13 +88,13 @@ function Shaders:drawAllFunc( func )
 	end
 end
 
-function Shaders:drawAllFullScreen( drawable )
+function Shaders:drawAllFullScreen( func )
 	local foundActive = false
 	Shaders:rememberState()
 	for k, s in ipairs(shaderList) do
 		if s.shader.isFullScreenShader then
 			if s.enabled then
-				s.shader.draw( drawable )
+				s.shader.drawFunc( func )
 				Shaders:recallState()
 				foundActive = true
 			end

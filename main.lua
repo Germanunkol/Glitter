@@ -62,7 +62,9 @@ function love.draw()
 	-- If any full screen shaders are active, render the canvas
 	-- using those shaders. Otherwise just render the canvas
 	-- directly to the screen:
-	if not Shaders:drawAllFullScreen( fullScreenCanvas ) then
+	if not Shaders:drawAllFullScreen( function()
+			love.graphics.draw(fullScreenCanvas)
+		end) then
 		love.graphics.draw( fullScreenCanvas )
 	end
 
