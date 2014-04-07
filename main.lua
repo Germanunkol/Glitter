@@ -14,8 +14,9 @@ Shaders = require("shaders")
 
 local chars = {}
 
-function love.load()
+local fullScreenCanvas1, fullScreenCanvas2
 
+function love.load()
 
 	-- initialize character class:
 	Character:init()
@@ -36,7 +37,16 @@ function love.load()
 	Shaders:addShader( "plain", "1" )
 	Shaders:addShader( "outline thick", "2" )
 	Shaders:addShader( "outline thin", "3" )
+	Shaders:addShader( "gaussian horizontal", "4" )
+	Shaders:addShader( "gaussian vertical", "5" )
 	--Shaders:addShader( "gaussian", "g" )
+	gaussianH = love.graphics.newShader( "Shaders/gaussianH.glsl" )	
+	gaussianV = love.graphics.newShader( "Shaders/gaussianV.glsl" )	
+	gaussianH:send( "blurSize", 1/love.graphics.getWidth() )
+	gaussianV:send( "blurSize", 1/love.graphics.getHeight() )
+
+	fullScreenCanvas1 = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
+	fullScreenCanvas2 = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
 end
 
 function love.update( dt )
@@ -45,8 +55,35 @@ function love.update( dt )
 end
 
 function love.draw()
+
+	fullScreenCanvas1:clear()
+
+	love.graphics.setCanvas( fullScreenCanvas1 )
 	chars[1]:draw()
 	chars[2]:draw()
+	love.graphics.setCanvas()
+
+	if Shaders:isEnabled( "gaussian horizontal" ) and not Shaders:isEnabled( "gaussian vertical" ) then
+		love.graphics.setShader( gaussianH )
+		love.graphics.draw( fullScreenCanvas1 )
+		love.graphics.setShader()
+	elseif Shaders:isEnabled( "gaussian vertical" ) and not Shaders:isEnabled( "gaussian horizontal" ) then
+		love.graphics.setShader( gaussianV )
+		love.graphics.draw( fullScreenCanvas1 )
+		love.graphics.setShader()
+	elseif Shaders:isEnabled( "gaussian horizontal" ) and Shaders:isEnabled( "gaussian vertical" ) then
+		fullScreenCanvas2:clear()
+		love.graphics.setCanvas( fullScreenCanvas2 )
+		love.graphics.setShader( gaussianV )
+		love.graphics.draw( fullScreenCanvas1 )
+
+		love.graphics.setCanvas()
+		love.graphics.setShader( gaussianH )
+		love.graphics.draw( fullScreenCanvas2 )
+		love.graphics.setShader()
+	else
+		love.graphics.draw( fullScreenCanvas1 )
+	end
 
 	love.graphics.setColor(255,255,255,255)
 	Shaders:draw()
