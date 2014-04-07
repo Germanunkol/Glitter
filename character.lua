@@ -21,8 +21,6 @@ function Character:new( charType )
 	o.x = 0
 	o.y = 0
 
-	o.shader = love.graphics.newShader( "Shaders/outline.glsl" )
-
 	return o
 end
 
@@ -43,25 +41,7 @@ function Character:update( dt )
 end
 
 function Character:draw()
-	if Shaders:isEnabled("plain") then
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.draw( self.img, quads[self.frame], self.x, self.y )
-	end
-	if Shaders:isEnabled("outline thick") then
-		love.graphics.setColor(100, 255, 0 )
-		self.shader:send( "stepSize", {3/self.img:getWidth(), 3/self.img:getHeight()})
-
-		love.graphics.setShader( self.shader )
-		love.graphics.draw( self.img, quads[self.frame], self.x, self.y )
-		love.graphics.setShader()
-	end
-	if Shaders:isEnabled("outline thin") then
-		love.graphics.setColor(100, 255, 0 )
-		self.shader:send( "stepSize", {1/self.img:getWidth(), 1/self.img:getHeight()})
-		love.graphics.setShader( self.shader )
-		love.graphics.draw( self.img, quads[self.frame], self.x, self.y )
-		love.graphics.setShader()
-	end
+	love.graphics.draw( self.img, quads[self.frame], self.x, self.y )
 end
 
 -----------------------------------------------
@@ -77,6 +57,10 @@ function Character:init()
 						QUAD_SIZE, QUAD_SIZE,
 						images["skeleton"]:getWidth(), images["skeleton"]:getHeight() )
 	end
+end
+
+function Character:getImage( name )
+	return images[name]
 end
 
 return Character

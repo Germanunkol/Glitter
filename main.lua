@@ -14,7 +14,7 @@ Shaders = require("shaders")
 
 local chars = {}
 
-local fullScreenCanvas1, fullScreenCanvas2
+local fullScreenCanvas
 
 function love.load()
 
@@ -34,60 +34,40 @@ function love.load()
 	-- This will not really create a shader, only display a text at the top which can be used
 	-- to disable and enable shaders. In order for this to work, functions using shaders MUST
 	-- poll Shader:isEnabled( "outline" ) or similar before using shaders.
-	Shaders:addShader( "plain", "1" )
-	Shaders:addShader( "outline thick", "2" )
-	Shaders:addShader( "outline thin", "3" )
-	Shaders:addShader( "gaussian horizontal", "4" )
-	Shaders:addShader( "gaussian vertical", "5" )
 	--Shaders:addShader( "gaussian", "g" )
-	gaussianH = love.graphics.newShader( "Shaders/gaussianH.glsl" )	
-	gaussianV = love.graphics.newShader( "Shaders/gaussianV.glsl" )	
-	gaussianH:send( "blurSize", 1/love.graphics.getWidth() )
-	gaussianV:send( "blurSize", 1/love.graphics.getHeight() )
 
-	fullScreenCanvas1 = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
-	fullScreenCanvas2 = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
+	fullScreenCanvas = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
+
+	Shaders:init( Character:getImage("skeleton") )
 end
 
 function love.update( dt )
 	chars[1]:update( dt )
 	chars[2]:update( dt )
+	Shaders:update( dt )
 end
 
 function love.draw()
 
-	fullScreenCanvas1:clear()
+	fullScreenCanvas:clear()
 
-	love.graphics.setCanvas( fullScreenCanvas1 )
-	chars[1]:draw()
-	chars[2]:draw()
+	-- Draw the two characters to a canvas:
+	love.graphics.setCanvas( fullScreenCanvas )
+	Shaders:drawAllFunc( function() chars[1]:draw() end )
+	Shaders:drawAllFunc( function() chars[2]:draw() end )
 	love.graphics.setCanvas()
-
+	
 	love.graphics.setColor(255,255,255,255)
-	if Shaders:isEnabled( "gaussian horizontal" ) and not Shaders:isEnabled( "gaussian vertical" ) then
-		love.graphics.setShader( gaussianH )
-		love.graphics.draw( fullScreenCanvas1 )
-		love.graphics.setShader()
-	elseif Shaders:isEnabled( "gaussian vertical" ) and not Shaders:isEnabled( "gaussian horizontal" ) then
-		love.graphics.setShader( gaussianV )
-		love.graphics.draw( fullScreenCanvas1 )
-		love.graphics.setShader()
-	elseif Shaders:isEnabled( "gaussian horizontal" ) and Shaders:isEnabled( "gaussian vertical" ) then
-		fullScreenCanvas2:clear()
-		love.graphics.setCanvas( fullScreenCanvas2 )
-		love.graphics.setShader( gaussianV )
-		love.graphics.draw( fullScreenCanvas1 )
 
-		love.graphics.setCanvas()
-		love.graphics.setShader( gaussianH )
-		love.graphics.draw( fullScreenCanvas2 )
-		love.graphics.setShader()
-	else
-		love.graphics.draw( fullScreenCanvas1 )
+	-- If any full screen shaders are active, render the canvas
+	-- using those shaders. Otherwise just render the canvas
+	-- directly to the screen:
+	if not Shaders:drawAllFullScreen( fullScreenCanvas ) then
+		love.graphics.draw( fullScreenCanvas )
 	end
 
+	-- display UI info:
 	Shaders:draw()
-
 	love.graphics.print( love.timer.getFPS(), 10, love.graphics.getHeight() - 24 )
 end
 
