@@ -1,5 +1,14 @@
+
+local PATH = (...):match('^(.*[%./])[^%.%/]+$') or ''
+print(PATH)
+--package.path = package.path .. ";" .. PATH .. "Images/?.png"
+--print(package.path)
+
 local Character = {}
 Character.__index = Character
+
+--local PATH = (...):match("(.+)%.[^%.]+$") or (...)
+--local PATH = (...):match("(.+)%.[^%.]+$") or (...)
 
 local images = {}	-- characters use seperate images depending on type
 local quads = {}	-- both characters use the same quads
@@ -47,7 +56,9 @@ end
 -----------------------------------------------
 -- Initialize the class at startup (load images etc):
 function Character:init()
-	images["skeleton"] = love.graphics.newImage("Images/skeleton_3.png")
+	--images["skeleton"] = love.graphics.newImage(PATH .. "Images/skeleton_3.png")
+	--images["spearguy"] = love.graphics.newImage(PATH .. "Images/spear_walk_m.png")
+	images["skeleton"] = love.graphics.newImage(PATH .. "Images/skeleton_3.png")
 	images["spearguy"] = love.graphics.newImage("Images/spear_walk_m.png")
 
 	-- Create the 9 quads for walking animation:

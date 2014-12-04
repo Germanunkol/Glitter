@@ -9,26 +9,16 @@
 -- Both are released under Creative Common Licenses, make sure to visit the Links for more details before using the images in your own projects.
 -- Thanks to the authors!
 
-Character = require("character")
 Shaders = require("shaders")
+PunchUI = require("PunchUI")
 
-local chars = {}
 
 local fullScreenCanvas
 
 function love.load()
 
-	-- initialize character class:
-	Character:init()
 	
-	-- create and remember two characters - a skeleton and a 
-	chars[1] = Character:new("skeleton")
-	chars[2] = Character:new("spearguy")
-
-	chars[1]:setPosition( love.graphics.getWidth()/3-34, love.graphics.getHeight()/2-40 )
-	chars[2]:setPosition( 2*love.graphics.getWidth()/3-34, love.graphics.getHeight()/2-40 )
-
-	love.graphics.setFont( love.graphics.newFont(14) )
+		love.graphics.setFont( love.graphics.newFont(14) )
 
 	-- To add a new "Shader", use a line similar to the following.
 	-- This will not really create a shader, only display a text at the top which can be used
@@ -39,11 +29,13 @@ function love.load()
 	fullScreenCanvas = love.graphics.newCanvas( love.graphics.getWidth(), love.graphics.getHeight() )
 
 	Shaders:init( Character:getImage("skeleton") )
+
+
+	--PunchUI.
+	--gaussianH:send( "blurSize", { 1/img:getWidth(), 1/img:getHeight() } )
 end
 
 function love.update( dt )
-	chars[1]:update( dt )
-	chars[2]:update( dt )
 	Shaders:update( dt )
 end
 

@@ -1,6 +1,7 @@
 Glitter - A shader collection for Löve2D
 ========================================
 
+
 This is a collection of shaders for Löve2D. The goal of the project is to have multiple often-used shaders readily available.
 Note: The shader code is Löve specific, but can easily be ported to other engines.
 
